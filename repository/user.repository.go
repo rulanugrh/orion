@@ -15,7 +15,7 @@ func NewUserRepository() port.UserRepositoryInterface {
 	return &userrepository{}
 }
 
-func (rep *userrepository) Login(ctx context.Context, user domain.UserEntity) (*domain.UserEntity, error) {
+func (rep *userrepository) Register(ctx context.Context, user domain.UserEntity) (*domain.UserEntity, error) {
 	err := configs.DB.WithContext(ctx).Create(&user).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
@@ -50,6 +50,6 @@ func (rep *userrepository) DeleteAccount(ctx context.Context, id uint) error {
 	if err != nil {
 		log.Printf("Found Error %v", err)
 	}
-	
+
 	return nil
 }

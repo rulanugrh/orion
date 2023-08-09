@@ -12,8 +12,8 @@ type EventResponseSuccess struct {
 }
 
 type UserResponseSuccess struct {
+	Name 	string `json:"name"`
 	Message string `json:"message"`
-	Token   string `json:"token"`
 }
 
 type CommentResponseSuccess struct {
