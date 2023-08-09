@@ -19,7 +19,7 @@ func NewUserServices(user port.UserRepositoryInterface) portServ.UserServiceInte
 }
 
 func (srv *userservices) Register(user domain.UserEntity) (*web.UserResponseSuccess, error) {
-	result, err := srv.userRepo.Login(context.Background(), user)
+	result, err := srv.userRepo.Register(context.Background(), user)
 	if err != nil {
 		return nil, err
 	}
