@@ -9,4 +9,5 @@ type UserEntity struct {
 	Email 		string 	`json:"email" form:"email" validate:"required"`
 	Password 	string 	`json:"password" form:"password" validate:"required"`
 	Notelp 		string 	`json:"notelp" form:"notelp" validate:"required"`
+	Event 		[]EventEntity `json:"event" form:"event" gorm:"many2many:join_event"`
 }

@@ -53,3 +53,13 @@ func (rep *userrepository) DeleteAccount(ctx context.Context, id uint) error {
 
 	return nil
 }
+
+func (rep *userrepository) JoinEvent(ctx context.Context, id uint) error {
+	var user domain.UserEntity
+	errs := configs.DB.WithContext(ctx).Model(&user.Event).Where("id = ?", id).Association("Participant").Append(&user)
+	if errs != nil {
+		log.Printf("Found Error %v", errs)
+	}
+
+	return nil
+}

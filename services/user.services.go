@@ -66,3 +66,10 @@ func (srv *userservices) DeleteAccount(id uint) error {
 	}
 	return nil
 }
+
+func (srv *userservices) JoinEvent(id uint) error {
+	if err := srv.userRepo.JoinEvent(context.Background(), id); err != nil {
+		return err
+	}
+	return nil
+}

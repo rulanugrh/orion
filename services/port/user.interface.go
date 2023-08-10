@@ -10,4 +10,5 @@ type UserServiceInterface interface {
 	Update(id uint, userUpt domain.UserEntity) (*web.UserResponseSuccess, error)
 	FindByEmail(email string) (*web.UserResponseSuccess, error)
 	DeleteAccount(id uint) error
+	JoinEvent(id uint) error
 }
