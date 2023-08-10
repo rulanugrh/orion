@@ -31,13 +31,13 @@ func (hnd *userhandler) Register(w http.ResponseWriter, r*http.Request){
 	json.Unmarshal(data, &req)
 	password := middleware.HashPassword(req.Password)
 	req.Password = password
-
+	
 	_, err := hnd.userServ.Register(req)
 	if err != nil {
 		res := web.ResponseFailure {
-			Message: "Cant Login",
+			Message: "Cant create account or Email has been used",
 		}
-		log.Printf("cant login because: %v", err)
+		log.Printf("cant create because: %v", err)
 		response, _ := json.Marshal(res)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(response)

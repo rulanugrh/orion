@@ -16,11 +16,15 @@ func NewUserRepository() port.UserRepositoryInterface {
 }
 
 func (rep *userrepository) Register(ctx context.Context, user domain.UserEntity) (*domain.UserEntity, error) {
-	err := configs.DB.WithContext(ctx).Create(&user).Error
-	if err != nil {
-		log.Printf("Found Error %v", err)
+	result := configs.DB.WithContext(ctx).Where("email = ?", user.Email)
+	if result.Error == nil {
+		log.Printf("Found Error %v", result.Error)
 	}
 
+	err := result.Create(&user).Error
+	if err != nil {
+		return nil, err
+	}
 	return &user, nil
 }
 
@@ -56,11 +60,10 @@ func (rep *userrepository) DeleteAccount(ctx context.Context, id uint) error {
 
 func (rep *userrepository) JoinEvent(ctx context.Context, id uint) error {
 	var user domain.UserEntity
-	errs := configs.DB.WithContext(ctx).Model(&user.Event).Where("id = ?", id).Association("Participant").Append(&user)
+	errs := configs.DB.WithContext(ctx).Model(&user.Events).Association("Event").Append(&user)
 	if errs != nil {
 		log.Printf("Found Error %v", errs)
 	}
-
 	return nil
 }
 

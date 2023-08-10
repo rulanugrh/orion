@@ -8,9 +8,7 @@ import (
 )
 
 func main() {
-	eventRepo := repository.NewEventRepository()
-	eventServ := services.NewEventServices(eventRepo)
-	eventHandler := handler.NewEventHandler(eventServ)
+	
 
 	commentRepo := repository.NewCommentRepository()
 	commentServ := services.NewCommentService(commentRepo)
@@ -20,5 +18,8 @@ func main() {
 	userServ := services.NewUserServices(userRepo)
 	userHandler := handler.NewUserHandler(userServ)
 
+	eventRepo := repository.NewEventRepository()
+	eventServ := services.NewEventServices(eventRepo)
+	eventHandler := handler.NewEventHandler(eventServ)
 	routes.Run(eventHandler, commentHandler, userHandler)
 }

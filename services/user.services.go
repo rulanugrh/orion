@@ -81,7 +81,7 @@ func (srv *userservices) DetailUser(id uint) (*web.DetailUserResponse, error) {
 	}
 
 	var eventList []web.EventList
-	for _, data := range result.Event {
+	for _, data := range result.Events {
 		event := web.EventList {
 			Name: data.Name,
 			Description: data.Description,

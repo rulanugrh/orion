@@ -41,7 +41,8 @@ func Run(event port.EventHandlerInterface, comment port.CommentHandlerInterface,
 	// routing for user
 	routesHandler.HandleFunc("/user/updateUser/{id}", user.UpdateAccount).Methods("PUT")
 	routesHandler.HandleFunc("/user/deleteUser/{id}", user.DeleteAccount).Methods("DELETE")
-	routesHandler.HandleFunc("/user/detailUser/{id}", user.DetailUser).Methods("DELETE")
+	routesHandler.HandleFunc("/user/detailUser/{id}", user.DetailUser).Methods("GET")
+	routesHandler.HandleFunc("/user/joinEvent/{id}", user.DetailUser).Methods("POST")
 
 	config := configs.GetConfig()
 	host := fmt.Sprintf("%s:%s", config.Server.Host, config.Server.Hport)
