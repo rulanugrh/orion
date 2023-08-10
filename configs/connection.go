@@ -24,6 +24,7 @@ type App struct {
 		User string
 		Pass string
 	}
+	Secret string
 }
 
 var app *App
@@ -62,6 +63,7 @@ func initConfig() *App {
 		conf.Database.Port = "3306"
 		conf.Database.User = ""
 		conf.Database.Pass = ""
+		conf.Secret = ""
 
 		return &conf
 	}
@@ -74,6 +76,7 @@ func initConfig() *App {
 	conf.Database.User = os.Getenv("MYSQLDB_USER")
 	conf.Database.Pass = os.Getenv("MYSQLDB_PASS")
 	conf.Database.Port = os.Getenv("MYSQLDB_PORT")
-
+	conf.Secret = os.Getenv("JWT_SECRET")
+	
 	return &conf
 }
