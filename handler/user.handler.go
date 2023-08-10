@@ -165,6 +165,31 @@ func (hnd *userhandler) UpdateAccount(w http.ResponseWriter, r*http.Request) {
 	w.Write(response)
 }
 
+func (hnd *userhandler) JoinEvent(w http.ResponseWriter, r*http.Request) {
+	getId := mux.Vars(r)
+	params := getId["id"]
+	id, _ := strconv.Atoi(params)
+
+	err := hnd.userServ.JoinEvent(uint(id))
+	if err != nil {
+		res := web.ResponseFailure {
+			Message: "Cant Join Event with This ID",
+		}
+		log.Printf("cant join event because: %v", err)
+		response, _ := json.Marshal(res)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write(response)
+	}
+
+	res := web.ResponseSuccess {
+		Message: "success join event",
+		Data: "Heyy you success to join event with this ID",
+	}
+	response, _ := json.Marshal(res)
+	w.WriteHeader(http.StatusOK)
+	w.Write(response)
+}
+
 func (hnd *userhandler) DeleteAccount(w http.ResponseWriter, r*http.Request) {
 	getId := mux.Vars(r)
 	params := getId["id"]
@@ -183,6 +208,32 @@ func (hnd *userhandler) DeleteAccount(w http.ResponseWriter, r*http.Request) {
 	res := web.ResponseSuccess {
 		Message: "success login account",
 		Data: "Account with this ID has been delete",
+	}
+	response, _ := json.Marshal(res)
+	w.WriteHeader(http.StatusOK)
+	w.Write(response)
+}
+
+
+func (hnd *userhandler) DetailUser(w http.ResponseWriter, r*http.Request) {
+	getId := mux.Vars(r)
+	params := getId["id"]
+	id, _ := strconv.Atoi(params)
+
+	result, err := hnd.userServ.DetailUser(uint(id))
+	if err != nil {
+		res := web.ResponseFailure {
+			Message: "Cant Join Event with This ID",
+		}
+		log.Printf("cant join event because: %v", err)
+		response, _ := json.Marshal(res)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write(response)
+	}
+
+	res := web.ResponseSuccess {
+		Message: "success join event",
+		Data: result,
 	}
 	response, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)

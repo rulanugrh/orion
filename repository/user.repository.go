@@ -63,3 +63,13 @@ func (rep *userrepository) JoinEvent(ctx context.Context, id uint) error {
 
 	return nil
 }
+
+func (rep *userrepository) DetailUser(ctx context.Context, id uint) (*domain.UserEntity, error) {
+	var user domain.UserEntity
+	errs := configs.DB.WithContext(ctx).Where("id = ?", id).Preload("Event").Find(&user).Error
+	if errs != nil {
+		log.Printf("Found Error %v", errs)
+	}
+
+	return &user, nil
+}

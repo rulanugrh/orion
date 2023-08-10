@@ -73,3 +73,30 @@ func (srv *userservices) JoinEvent(id uint) error {
 	}
 	return nil
 }
+
+func (srv *userservices) DetailUser(id uint) (*web.DetailUserResponse, error) {
+	result, err := srv.userRepo.DetailUser(context.Background(), id)
+	if err != nil {
+		return nil, err
+	}
+
+	var eventList []web.EventList
+	for _, data := range result.Event {
+		event := web.EventList {
+			Name: data.Name,
+			Description: data.Description,
+		}
+
+		eventList = append(eventList, event)
+	}
+
+	response := web.DetailUserResponse{
+		Name: result.Name,
+		Email: result.Email,
+		Age: result.Age,
+		Notelp: result.Notelp,
+		Event: eventList,
+	}
+
+	return &response, nil
+}

@@ -28,10 +28,10 @@ func Run(event port.EventHandlerInterface, comment port.CommentHandlerInterface,
 
 	// routing for event
 	routesHandler.HandleFunc("/event/createEvent", event.CreateEvent).Methods("POST")
-	routesHandler.HandleFunc("/event", event.GetEvent).Methods("GET")
-	routesHandler.HandleFunc("/event/{id}", event.GetEventByID).Methods("GET")
-	routesHandler.HandleFunc("/event/{id}", event.UpdateEvent).Methods("PUT")
-	routesHandler.HandleFunc("/event/{id}", event.DeleteEvent).Methods("DELETE")
+	routesHandler.HandleFunc("/event/getEvent", event.GetEvent).Methods("GET")
+	routesHandler.HandleFunc("/event/getEvent/{id}", event.GetEventByID).Methods("GET")
+	routesHandler.HandleFunc("/event/updateEvent/{id}", event.UpdateEvent).Methods("PUT")
+	routesHandler.HandleFunc("/event/deleteEvent/{id}", event.DeleteEvent).Methods("DELETE")
 	
 
 	// routing for comment
@@ -39,8 +39,9 @@ func Run(event port.EventHandlerInterface, comment port.CommentHandlerInterface,
 	routesHandler.HandleFunc("/comment/listAllComment", comment.GetAllComment).Methods("GET")
 
 	// routing for user
-	routesHandler.HandleFunc("/user/{id}", user.UpdateAccount).Methods("PUT")
-	routesHandler.HandleFunc("/user/{id}", user.DeleteAccount).Methods("DELETE")
+	routesHandler.HandleFunc("/user/updateUser/{id}", user.UpdateAccount).Methods("PUT")
+	routesHandler.HandleFunc("/user/deleteUser/{id}", user.DeleteAccount).Methods("DELETE")
+	routesHandler.HandleFunc("/user/detailUser/{id}", user.DetailUser).Methods("DELETE")
 
 	config := configs.GetConfig()
 	host := fmt.Sprintf("%s:%s", config.Server.Host, config.Server.Hport)

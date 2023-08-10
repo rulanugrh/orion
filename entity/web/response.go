@@ -19,6 +19,19 @@ type UserResponseSuccess struct {
 	Message string `json:"message"`
 }
 
+type DetailUserResponse struct {
+	Name string `json:"name"`
+	Age int `json:"age"`
+	Notelp string `json:"no_telepon"`
+	Email string `json:"email"`
+	Event []EventList `json:"event_joining"`
+}
+
+type EventList struct {
+	Name string `json:"name"`
+	Description string `json:"description"`
+}
+
 type CommentResponseSuccess struct {
 	EventName string `json:"event_name"`
 	EventDesc string `json:"event_description"`

@@ -11,4 +11,5 @@ type UserServiceInterface interface {
 	FindByEmail(email string) (*web.UserResponseSuccess, error)
 	DeleteAccount(id uint) error
 	JoinEvent(id uint) error
+	DetailUser(id uint) (*web.DetailUserResponse, error)
 }
