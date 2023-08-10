@@ -32,7 +32,7 @@ func (rep *eventrepository) CreateEvent(ctx context.Context, event domain.EventE
 
 func (rep *eventrepository) GetEventById(ctx context.Context, id uint) (*domain.EventEntity, error) {
 	var event domain.EventEntity
-	err := configs.DB.WithContext(ctx).Preload("User").Preload("Comments").	Where("id = ?", id).Find(&event).Error
+	err := configs.DB.WithContext(ctx).Preload("User").Preload("Comments").Preload("Comments.User").Where("id = ?", id).Find(&event).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
 	}
