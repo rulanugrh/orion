@@ -7,5 +7,5 @@ type UserHandlerInterface interface {
 	Login(w http.ResponseWriter, r *http.Request)
 	UpdateAccount(w http.ResponseWriter, r *http.Request)
 	DeleteAccount(w http.ResponseWriter, r *http.Request)
-	
+	RefreshToken(w http.ResponseWriter, r *http.Request) 
 }

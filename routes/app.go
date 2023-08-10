@@ -20,6 +20,7 @@ func Run(event port.EventHandlerInterface, comment port.CommentHandlerInterface,
 	router.Use(commonMiddleware)
 	router.HandleFunc("/api/v1/user/auth", user.Register).Methods("POST")
 	router.HandleFunc("/api/v1/user/login", user.Login).Methods("POST")
+	router.HandleFunc("/api/v1/user/refreshToken", user.RefreshToken).Methods("POST")
 
 	routesHandler := router.PathPrefix("/api/v1/").Subrouter()
 	routesHandler.Use(middleware.JWTVerify)

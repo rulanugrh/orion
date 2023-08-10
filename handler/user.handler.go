@@ -63,6 +63,42 @@ func (hnd *userhandler) Register(w http.ResponseWriter, r*http.Request){
 	w.Write(response)
 }
 
+
+func (hnd *userhandler) RefreshToken(w http.ResponseWriter, r *http.Request) {
+	var req domain.UserEntity
+	data, _ := ioutil.ReadAll(r.Body)
+
+	json.Unmarshal(data, &req)
+	_, err := hnd.userServ.FindByEmail(req.Email)
+	if err != nil {
+		res := web.ResponseFailure {
+			Message: "Cant Find Account with this Email",
+		}
+		log.Printf("cant find account because: %v", err)
+		response, _ := json.Marshal(res)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write(response)
+	}
+	token, errToken := middleware.GenerateToken(req)
+	if errToken != nil {
+		res := web.ResponseFailure {
+			Message: "Cant Generate Token",
+		}
+		log.Printf("cant generate token because: %v", errToken)
+		response, _ := json.Marshal(res)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write(response)
+	}
+
+	res := web.ResponseSuccess {
+		Message: "success refreh token ",
+		Data: token,
+	}
+	response, _ := json.Marshal(res)
+	w.WriteHeader(http.StatusOK)
+	w.Write(response)
+}
+
 func (hnd *userhandler) Login(w http.ResponseWriter, r*http.Request) {
 	var req domain.UserEntity
 	data, _ := ioutil.ReadAll(r.Body)
