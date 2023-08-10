@@ -21,6 +21,16 @@ func (rep *commentrepositoy) CreateComment(ctx context.Context, comment domain.C
 		log.Printf("Found Error %v", err)
 	}
 
+	errs := configs.DB.WithContext(ctx).Preload("Event").Preload("User").Find(&comment).Error
+	if errs != nil {
+		log.Printf("Found Error %v", errs)
+	}
+
+	errsEvent := configs.DB.Model(&comment.Event).Association("Comments").Append(&comment)
+	if errsEvent != nil {
+		log.Printf("Found Error %v", errs)
+	}
+	
 	return &comment, nil
 }
 

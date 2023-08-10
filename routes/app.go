@@ -27,10 +27,10 @@ func Run(event port.EventHandlerInterface, comment port.CommentHandlerInterface,
 
 	// routing for event
 	routesHandler.HandleFunc("/event/createEvent", event.CreateEvent).Methods("POST")
+	routesHandler.HandleFunc("/event", event.GetEvent).Methods("GET")
 	routesHandler.HandleFunc("/event/{id}", event.GetEventByID).Methods("GET")
 	routesHandler.HandleFunc("/event/{id}", event.UpdateEvent).Methods("PUT")
 	routesHandler.HandleFunc("/event/{id}", event.DeleteEvent).Methods("DELETE")
-	routesHandler.HandleFunc("/event/listEvent", event.GetEvent).Methods("GET")
 	
 
 	// routing for comment

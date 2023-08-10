@@ -31,8 +31,8 @@ func GenerateToken(user domain.UserEntity) (string, error) {
 		},
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
-	tokenString, err := token.SignedString(conf.Secret)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString([]byte(conf.Secret))
 	if err != nil {
 		log.Printf("Cant claim jwt token: %v", err)
 	}
@@ -66,7 +66,7 @@ func ValidateToken(token string) error {
 func JWTVerify(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var token = r.Header.Get("Authorization")
-		json.NewEncoder(w).Encode(r.Header)
+		json.NewEncoder(w).Encode(r)
 
 		token = strings.TrimSpace(token)
 
