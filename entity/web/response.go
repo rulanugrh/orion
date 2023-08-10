@@ -1,6 +1,8 @@
 package web
 
-import "time"
+import (
+	"time"
+)
 
 type EventResponseSuccess struct {
 	Name        string 			`json:"name"`
@@ -30,4 +32,9 @@ type CommentList struct {
 
 type ResponseFailure struct {
 	Message string `json:"message"`
+}
+
+type ResponseSuccess struct {
+	Message string `json:"message"`
+	Data interface{} `json:"data"`
 }

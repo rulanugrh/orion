@@ -8,5 +8,5 @@ type EventEntity struct {
 	Description 	string 			`json:"desc" form:"desc" validate:"required"`
 	UserID 			uint 			`json:"user_id" form:"user_id" validate:"required"`
 	User			UserEntity 		`json:"user" form:"user" gorm:"foreignKey:UserID;reference:ID"`
-	Comments		[]CommentEntity `json:"comment" form:"comment" gorm:"foreignKey:ID"`
+	Comments		[]CommentEntity `json:"comment" form:"comment" gorm:"many2many:comment_event"`
 }
