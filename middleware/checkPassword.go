@@ -15,8 +15,8 @@ func HashPassword(password string) string {
 	return string(bytes)
 }
 
-func ComparePassword(password string, compare string) error {
-	err := bcrypt.CompareHashAndPassword([]byte(password), []byte(compare))
+func ComparePassword(password string, compare []byte) error {
+	err := bcrypt.CompareHashAndPassword([]byte(password), compare)
 	if err != nil {
 		log.Printf("Cant compare password: %v", err)
 	}
