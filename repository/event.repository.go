@@ -43,7 +43,7 @@ func (rep *eventrepository) GetEventById(ctx context.Context, id uint) (*domain.
 func (rep *eventrepository) GetEvent(ctx context.Context) ([]domain.EventEntity, error) {
 	var events []domain.EventEntity
 
-	err := configs.DB.WithContext(ctx).Preload("User").Preload("Comments").Find(&events).Error
+	err := configs.DB.WithContext(ctx).Preload("User").Preload("Comments").Preload("Comments.User").Find(&events).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
 	}
