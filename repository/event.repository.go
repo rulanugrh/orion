@@ -20,7 +20,7 @@ func (rep *eventrepository) CreateEvent(ctx context.Context, event domain.EventE
 		log.Printf("Found Error %v", err)
 	}
 
-	errs := configs.DB.WithContext(ctx).Find(&event).Error
+	errs := configs.DB.WithContext(ctx).Preload("User").Find(&event).Error
 	if errs != nil {
 		log.Printf("Found Error %v", errs)
 	}
@@ -32,7 +32,7 @@ func (rep *eventrepository) CreateEvent(ctx context.Context, event domain.EventE
 
 func (rep *eventrepository) GetEventById(ctx context.Context, id uint) (*domain.EventEntity, error) {
 	var event domain.EventEntity
-	err := configs.DB.WithContext(ctx).Preload("User").Preload("Comments").Preload("Comments.User").Where("id = ?", id).Find(&event).Error
+	err := configs.DB.WithContext(ctx).Preload("User").Preload("Comments").Preload("Comments.User").Preload("Participant.User").Where("id = ?", id).Find(&event).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
 	}
@@ -43,7 +43,7 @@ func (rep *eventrepository) GetEventById(ctx context.Context, id uint) (*domain.
 func (rep *eventrepository) GetEvent(ctx context.Context) ([]domain.EventEntity, error) {
 	var events []domain.EventEntity
 
-	err := configs.DB.WithContext(ctx).Preload("User").Preload("Comments").Preload("Comments.User").Find(&events).Error
+	err := configs.DB.WithContext(ctx).Preload("User").Preload("Comments").Preload("Comments.User").Preload("Participant.User").Find(&events).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
 	}

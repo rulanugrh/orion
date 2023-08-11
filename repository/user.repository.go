@@ -58,18 +58,33 @@ func (rep *userrepository) DeleteAccount(ctx context.Context, id uint) error {
 	return nil
 }
 
-func (rep *userrepository) JoinEvent(ctx context.Context, id uint) error {
-	var user domain.UserEntity
-	errs := configs.DB.WithContext(ctx).Model(&user.Events).Association("Event").Append(&user)
+func (rep *userrepository) JoinEvent(ctx context.Context, join domain.ParticipantEntity) ( *domain.ParticipantEntity, error) {
+	errs := configs.DB.WithContext(ctx).Create(&join).Error
 	if errs != nil {
 		log.Printf("Found Error %v", errs)
 	}
-	return nil
+
+	errFind := configs.DB.WithContext(ctx).Preload("Event").Preload("User").Find(&join).Error
+	if errFind != nil {
+		log.Printf("Found Error %v", errs)
+	}
+
+	errAppend := configs.DB.WithContext(ctx).Model(&join.User).Association("Events").Append(&join)
+	if errAppend != nil {
+		log.Printf("Found Error %v", errs)
+	}
+	
+	errAppendEvent := configs.DB.WithContext(ctx).Model(&join.Event).Association("Participant").Append(&join)
+	if errAppendEvent != nil {
+		log.Printf("Found Error %v", errs)
+	}
+
+	return &join, nil
 }
 
 func (rep *userrepository) DetailUser(ctx context.Context, id uint) (*domain.UserEntity, error) {
 	var user domain.UserEntity
-	errs := configs.DB.WithContext(ctx).Where("id = ?", id).Preload("Event").Find(&user).Error
+	errs := configs.DB.WithContext(ctx).Where("id = ?", id).Preload("Events.Event").Find(&user).Error
 	if errs != nil {
 		log.Printf("Found Error %v", errs)
 	}

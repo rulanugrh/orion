@@ -9,4 +9,5 @@ type UserHandlerInterface interface {
 	DeleteAccount(w http.ResponseWriter, r *http.Request)
 	RefreshToken(w http.ResponseWriter, r *http.Request)
 	DetailUser(w http.ResponseWriter, r*http.Request)
+	JoinEvent(w http.ResponseWriter, r*http.Request)
 }

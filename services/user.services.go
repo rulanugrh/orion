@@ -67,11 +67,20 @@ func (srv *userservices) DeleteAccount(id uint) error {
 	return nil
 }
 
-func (srv *userservices) JoinEvent(id uint) error {
-	if err := srv.userRepo.JoinEvent(context.Background(), id); err != nil {
-		return err
+func (srv *userservices) JoinEvent(join domain.ParticipantEntity) (*web.JoinEventResponseSuccess, error) {
+	result, err := srv.userRepo.JoinEvent(context.Background(), join)
+	if err != nil {
+		return nil, err
 	}
-	return nil
+
+
+	response := web.JoinEventResponseSuccess {
+		EventName: result.Event.Name,
+		EventDesc: result.Event.Description,
+		UserName: result.User.Name,
+	}
+
+	return &response, nil
 }
 
 func (srv *userservices) DetailUser(id uint) (*web.DetailUserResponse, error) {
@@ -83,8 +92,8 @@ func (srv *userservices) DetailUser(id uint) (*web.DetailUserResponse, error) {
 	var eventList []web.EventList
 	for _, data := range result.Events {
 		event := web.EventList {
-			Name: data.Name,
-			Description: data.Description,
+			Name: data.Event.Name,
+			Description: data.Event.Description,
 		}
 
 		eventList = append(eventList, event)

@@ -14,6 +14,12 @@ type EventResponseSuccess struct {
 	Parcipant 	[]ParcipantList `json:"participant"`
 }
 
+type JoinEventResponseSuccess struct {
+	EventName string `json:"event_name"`
+	EventDesc string `json:"event_desc"`
+	UserName string `json:"user_name"`
+}
+
 type UserResponseSuccess struct {
 	Name 	string `json:"name"`
 	Message string `json:"message"`

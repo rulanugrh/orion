@@ -157,7 +157,7 @@ func (hnd *userhandler) UpdateAccount(w http.ResponseWriter, r*http.Request) {
 	}
 
 	res := web.ResponseSuccess {
-		Message: "success login account",
+		Message: "success update account",
 		Data: result,
 	}
 	response, _ := json.Marshal(res)
@@ -166,11 +166,11 @@ func (hnd *userhandler) UpdateAccount(w http.ResponseWriter, r*http.Request) {
 }
 
 func (hnd *userhandler) JoinEvent(w http.ResponseWriter, r*http.Request) {
-	getId := mux.Vars(r)
-	params := getId["id"]
-	id, _ := strconv.Atoi(params)
+	var req domain.ParticipantEntity
+	data, _ := ioutil.ReadAll(r.Body)
+	json.Unmarshal(data, &req)
 
-	err := hnd.userServ.JoinEvent(uint(id))
+	result, err := hnd.userServ.JoinEvent(req)
 	if err != nil {
 		res := web.ResponseFailure {
 			Message: "Cant Join Event with This ID",
@@ -183,7 +183,7 @@ func (hnd *userhandler) JoinEvent(w http.ResponseWriter, r*http.Request) {
 
 	res := web.ResponseSuccess {
 		Message: "success join event",
-		Data: "Heyy you success to join event with this ID",
+		Data: result,
 	}
 	response, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)
@@ -206,7 +206,7 @@ func (hnd *userhandler) DeleteAccount(w http.ResponseWriter, r*http.Request) {
 	}
 
 	res := web.ResponseSuccess {
-		Message: "success login account",
+		Message: "success delete account",
 		Data: "Account with this ID has been delete",
 	}
 	response, _ := json.Marshal(res)
@@ -223,16 +223,16 @@ func (hnd *userhandler) DetailUser(w http.ResponseWriter, r*http.Request) {
 	result, err := hnd.userServ.DetailUser(uint(id))
 	if err != nil {
 		res := web.ResponseFailure {
-			Message: "Cant Join Event with This ID",
+			Message: "Cant see detail with This ID",
 		}
-		log.Printf("cant join event because: %v", err)
+		log.Printf("cant see detail because: %v", err)
 		response, _ := json.Marshal(res)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(response)
 	}
 
 	res := web.ResponseSuccess {
-		Message: "success join event",
+		Message: "success get detail",
 		Data: result,
 	}
 	response, _ := json.Marshal(res)
