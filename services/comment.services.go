@@ -5,6 +5,7 @@ import (
 
 	"github.com/rulanugrh/orion/entity/domain"
 	"github.com/rulanugrh/orion/entity/web"
+	"github.com/rulanugrh/orion/middleware"
 	"github.com/rulanugrh/orion/repository/port"
 	portServ "github.com/rulanugrh/orion/services/port"
 )
@@ -20,6 +21,11 @@ func NewCommentService(comment port.CommentRepositoryInterface) portServ.Comment
 }
 
 func (srv *commentservice) CreateComment(comment domain.CommentEntity) (*web.CommentResponseSuccess, error) {
+	errStruct := middleware.ValidateStruct(comment)
+	if errStruct != nil {
+		return nil, errStruct
+	}
+
 	result, err := srv.commentRepo.CreateComment(context.Background(), comment)
 	if err != nil {
 		return nil, err

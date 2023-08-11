@@ -1,9 +1,10 @@
 package middleware
 
 import (
-	"log"
+	"reflect"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/rulanugrh/orion/entity/web"
 )
 
 func ValidateStruct(data interface{}) error {
@@ -11,7 +12,19 @@ func ValidateStruct(data interface{}) error {
 	err := validate.Struct(data)
 
 	if err != nil {
-		log.Printf("Found Error %v", err.Error())
+		errors := []web.ValidationList{}
+		for _, err := range err.(validator.ValidationErrors) {
+			field, _ := reflect.TypeOf(data).FieldByName(err.Field())
+			errors = append(errors, web.ValidationList{
+				Field: field.Type.Name(),
+				Error: err.Field() + "|" + err.ActualTag(),
+			})
+		}
+
+		return web.ValidationError{
+			Message: "validation errors",
+			Errors:  errors,
+		}
 	}
 
 	return nil

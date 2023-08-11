@@ -5,6 +5,7 @@ import (
 
 	"github.com/rulanugrh/orion/entity/domain"
 	"github.com/rulanugrh/orion/entity/web"
+	"github.com/rulanugrh/orion/middleware"
 	"github.com/rulanugrh/orion/repository/port"
 	portServ "github.com/rulanugrh/orion/services/port"
 )
@@ -20,6 +21,11 @@ func NewUserServices(user port.UserRepositoryInterface) portServ.UserServiceInte
 }
 
 func (srv *userservices) Register(user domain.UserEntity) (*web.UserResponseSuccess, error) {
+	errStruct := middleware.ValidateStruct(user)
+	if errStruct != nil {
+		return nil, errStruct
+	}
+
 	result, err := srv.userRepo.Register(context.Background(), user)
 	if err != nil {
 		return nil, err

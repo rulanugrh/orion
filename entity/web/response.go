@@ -14,6 +14,20 @@ type EventResponseSuccess struct {
 	Parcipant   []ParcipantList `json:"participant"`
 }
 
+type ValidationList struct {
+	Field string      `json:"field"`
+	Error interface{} `json:"error"`
+}
+
+type ValidationError struct {
+	Message string           `json:"message"`
+	Errors  []ValidationList `json:"error"`
+}
+
+func (err ValidationError) Error() string {
+	return err.Message
+}
+
 type JoinEventResponseSuccess struct {
 	EventName string `json:"event_name"`
 	EventDesc string `json:"event_desc"`
