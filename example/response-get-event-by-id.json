@@ -1,0 +1,22 @@
+{
+    "message": "Success find event",
+    "data": {
+        "name": "Goes to Kebun Teh",
+        "description": "Jalan jalan ke kebun teh nanti pas hari libur",
+        "owner": "John Doe",
+        "create_at": "2023-08-11T02:47:47.458Z",
+        "update_at": "2023-08-11T02:56:22.304Z",
+        "comment": [
+            {
+                "user_name": "John Doe",
+                "comment": "Gua lihat jadwal dehh"
+            }
+        ],
+        "participant": [
+            {
+                "user_name": "John Doe",
+                "user_email": "johndoe@john.me.id"
+            }
+        ]
+    }
+}

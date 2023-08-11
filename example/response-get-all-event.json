@@ -1,0 +1,34 @@
+{
+    "message": "Success find event",
+    "data": [
+        {
+            "name": "Goes To Puncak Bogor",
+            "description": "Jalan jalan ke puncak sebagai bentuk penghargaan",
+            "owner": "Lucas Graham",
+            "create_at": "2023-08-10T04:21:02.628Z",
+            "update_at": "2023-08-10T05:02:56.345Z",
+            "comment": [
+                {
+                    "user_name": "Alex Graham",
+                    "comment": "Gass dah gua nanti ikut"
+                }
+            ]
+        },
+        {
+            "name": "Goes To Kebun Teh",
+            "description": "Jalan jalan ke puncak sebagai bentuk penghargaan",
+            "owner": "Lucas Graham",
+            "create_at": "2023-08-10T04:23:58.655Z",
+            "update_at": "2023-08-10T04:23:58.655Z",
+            "comment": null
+        },
+        {
+            "name": "Goes To Kebun Teh",
+            "description": "Jalan jalan ke puncak sebagai bentuk penghargaan",
+            "owner": "Lucas Graham",
+            "create_at": "2023-08-10T04:26:34.265Z",
+            "update_at": "2023-08-10T04:26:34.265Z",
+            "comment": null
+        }
+    ]
+}
