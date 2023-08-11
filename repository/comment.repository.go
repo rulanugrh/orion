@@ -19,16 +19,19 @@ func (rep *commentrepositoy) CreateComment(ctx context.Context, comment domain.C
 	err := configs.DB.WithContext(ctx).Create(&comment).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
+		return nil, err
 	}
 
 	errs := configs.DB.WithContext(ctx).Preload("Event").Preload("User").Find(&comment).Error
 	if errs != nil {
 		log.Printf("Found Error %v", errs)
+		return nil, errs
 	}
 
 	errsEvent := configs.DB.Model(&comment.Event).Association("Comments").Append(&comment)
 	if errsEvent != nil {
-		log.Printf("Found Error %v", errs)
+		log.Printf("Found Error %v", errsEvent)
+		return nil, errsEvent
 	}
 
 	return &comment, nil
@@ -39,6 +42,7 @@ func (rep *commentrepositoy) GetAllComment(ctx context.Context) ([]domain.Commen
 	err := configs.DB.WithContext(ctx).Preload("Event").Preload("User").Find(&comment).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
+		return nil, err
 	}
 
 	return comment, nil

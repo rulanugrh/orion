@@ -19,11 +19,13 @@ func (rep *eventrepository) CreateEvent(ctx context.Context, event domain.EventE
 	err := configs.DB.WithContext(ctx).Create(&event).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
+		return nil, err
 	}
 
 	errs := configs.DB.WithContext(ctx).Preload("User").Find(&event).Error
 	if errs != nil {
 		log.Printf("Found Error %v", errs)
+		return nil, errs
 	}
 
 	return &event, nil
@@ -34,6 +36,7 @@ func (rep *eventrepository) GetEventById(ctx context.Context, id uint) (*domain.
 	err := configs.DB.WithContext(ctx).Preload("User").Preload("Comments").Preload("Comments.User").Preload("Participant.User").Where("id = ?", id).Find(&event).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
+		return nil, err
 	}
 
 	return &event, nil
@@ -45,6 +48,7 @@ func (rep *eventrepository) GetEvent(ctx context.Context) ([]domain.EventEntity,
 	err := configs.DB.WithContext(ctx).Preload("User").Preload("Comments").Preload("Comments.User").Preload("Participant.User").Find(&events).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
+		return []domain.EventEntity{}, err
 	}
 
 	return events, nil
@@ -56,6 +60,7 @@ func (rep *eventrepository) UpdateEvent(ctx context.Context, id uint, eventUpt d
 	err := configs.DB.WithContext(ctx).Model(&eventUpt).Where("id = ?", id).Updates(&event).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
+		return nil, err
 	}
 
 	return &event, nil
@@ -66,6 +71,7 @@ func (rep *eventrepository) DeleteEvent(ctx context.Context, id uint) error {
 	err := configs.DB.WithContext(ctx).Where("id = ?", id).Delete(&event).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
+		return err
 	}
 
 	return nil

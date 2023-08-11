@@ -33,6 +33,7 @@ func (rep *userrepository) Update(ctx context.Context, id uint, userUpt domain.U
 	err := configs.DB.WithContext(ctx).Model(&userUpt).Where("id = ?", id).Updates(&user).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
+		return nil, err
 	}
 
 	return &user, nil
@@ -43,6 +44,7 @@ func (rep *userrepository) FindByEmail(ctx context.Context, email string) (*doma
 	err := configs.DB.WithContext(ctx).Where("email = ?", email).Find(&user).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
+		return nil, err
 	}
 
 	return &user, nil
@@ -53,6 +55,7 @@ func (rep *userrepository) DeleteAccount(ctx context.Context, id uint) error {
 	err := configs.DB.WithContext(ctx).Where("id = ?", id).Delete(&user).Error
 	if err != nil {
 		log.Printf("Found Error %v", err)
+		return err
 	}
 
 	return nil
@@ -62,16 +65,19 @@ func (rep *userrepository) JoinEvent(ctx context.Context, join domain.Participan
 	errs := configs.DB.WithContext(ctx).Create(&join).Error
 	if errs != nil {
 		log.Printf("Found Error %v", errs)
+		return nil, errs
 	}
 
 	errFind := configs.DB.WithContext(ctx).Preload("Event").Preload("User").Find(&join).Error
 	if errFind != nil {
 		log.Printf("Found Error %v", errs)
+		return nil, errFind
 	}
 
 	errAppendEvent := configs.DB.WithContext(ctx).Model(&join.Event).Association("Participant").Append(&join)
 	if errAppendEvent != nil {
 		log.Printf("Found Error %v", errs)
+		return nil, errAppendEvent
 	}
 
 	return &join, nil
