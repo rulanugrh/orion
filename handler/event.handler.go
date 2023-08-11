@@ -39,15 +39,16 @@ func (hnd *eventhandler) CreateEvent(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Cant Create Event Because %v", err)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(response)
+	} else {
+		res := web.ResponseSuccess{
+			Message: "Success create event",
+			Data:    result,
+		}
+		response, _ := json.Marshal(res)
+
+		w.Write(response)
 	}
 
-	res := web.ResponseSuccess{
-		Message: "Success create event",
-		Data:    result,
-	}
-	response, _ := json.Marshal(res)
-
-	w.Write(response)
 }
 
 func (hnd *eventhandler) GetEventByID(w http.ResponseWriter, r *http.Request) {
@@ -65,15 +66,16 @@ func (hnd *eventhandler) GetEventByID(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Cant Find Event by this ID %v", err)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(response)
+	} else {
+		res := web.ResponseSuccess{
+			Message: "Success find event",
+			Data:    result,
+		}
+		response, _ := json.Marshal(res)
+
+		w.Write(response)
 	}
 
-	res := web.ResponseSuccess{
-		Message: "Success find event",
-		Data:    result,
-	}
-	response, _ := json.Marshal(res)
-
-	w.Write(response)
 }
 
 func (hnd *eventhandler) GetEvent(w http.ResponseWriter, r *http.Request) {
@@ -87,15 +89,16 @@ func (hnd *eventhandler) GetEvent(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Cant Find Event %v", err)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(response)
+	} else {
+		res := web.ResponseSuccess{
+			Message: "Success find event",
+			Data:    result,
+		}
+		response, _ := json.Marshal(res)
+
+		w.Write(response)
 	}
 
-	res := web.ResponseSuccess{
-		Message: "Success find event",
-		Data:    result,
-	}
-	response, _ := json.Marshal(res)
-
-	w.Write(response)
 }
 
 func (hnd *eventhandler) UpdateEvent(w http.ResponseWriter, r *http.Request) {
@@ -117,15 +120,16 @@ func (hnd *eventhandler) UpdateEvent(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Cant Update Event, because %v", err)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(response)
+	} else {
+		res := web.ResponseSuccess{
+			Message: "Success update event",
+			Data:    result,
+		}
+		response, _ := json.Marshal(res)
+
+		w.Write(response)
 	}
 
-	res := web.ResponseSuccess{
-		Message: "Success update event",
-		Data:    result,
-	}
-	response, _ := json.Marshal(res)
-
-	w.Write(response)
 }
 
 func (hnd *eventhandler) DeleteEvent(w http.ResponseWriter, r *http.Request) {
@@ -143,13 +147,14 @@ func (hnd *eventhandler) DeleteEvent(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Cant Delete Event by this ID, because %v", err)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(response)
+	} else {
+		res := web.ResponseSuccess{
+			Message: "Success delete event",
+			Data:    "Data is has been delete",
+		}
+		response, _ := json.Marshal(res)
+
+		w.Write(response)
 	}
 
-	res := web.ResponseSuccess{
-		Message: "Success delete event",
-		Data:    "Data is has been delete",
-	}
-	response, _ := json.Marshal(res)
-
-	w.Write(response)
 }

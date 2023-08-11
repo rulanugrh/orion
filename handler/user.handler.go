@@ -54,14 +54,15 @@ func (hnd *userhandler) Register(w http.ResponseWriter, r *http.Request) {
 		response, _ := json.Marshal(res)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(response)
+	} else {
+		res := web.ResponseSuccess{
+			Message: "success register account",
+			Data:    token,
+		}
+		response, _ := json.Marshal(res)
+		w.Write(response)
 	}
 
-	res := web.ResponseSuccess{
-		Message: "success register account",
-		Data:    token,
-	}
-	response, _ := json.Marshal(res)
-	w.Write(response)
 }
 
 func (hnd *userhandler) RefreshToken(w http.ResponseWriter, r *http.Request) {
