@@ -5,6 +5,7 @@ import (
 
 	"github.com/rulanugrh/orion/entity/domain"
 	"github.com/rulanugrh/orion/entity/web"
+	"github.com/rulanugrh/orion/middleware"
 	"github.com/rulanugrh/orion/repository/port"
 	portServ "github.com/rulanugrh/orion/services/port"
 )
@@ -20,6 +21,11 @@ func NewEventServices(event port.EventRepositoryInterface) portServ.EventService
 }
 
 func (srv *eventservices) CreateEvent(event domain.EventEntity) (*web.EventResponseSuccess, error) {
+	errStruct := middleware.ValidateStruct(event)
+	if errStruct != nil {
+		return nil, errStruct
+	}
+	
 	result, err := srv.eventRepo.CreateEvent(context.Background(), event)
 	if err != nil {
 		return nil, err
