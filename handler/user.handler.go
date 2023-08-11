@@ -43,24 +43,24 @@ func (hnd *userhandler) Register(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(response)
 
-	}
-
-	token, errToken := middleware.GenerateToken(req)
-	if errToken != nil {
-		res := web.ResponseFailure{
-			Message: "Cant Generate Token",
-		}
-		log.Printf("cant generate token because: %v", errToken)
-		response, _ := json.Marshal(res)
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write(response)
 	} else {
-		res := web.ResponseSuccess{
-			Message: "success register account",
-			Data:    token,
+		token, errToken := middleware.GenerateToken(req)
+		if errToken != nil {
+			res := web.ResponseFailure{
+				Message: "Cant Generate Token",
+			}
+			log.Printf("cant generate token because: %v", errToken)
+			response, _ := json.Marshal(res)
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write(response)
+		} else {
+			res := web.ResponseSuccess{
+				Message: "success register account",
+				Data:    token,
+			}
+			response, _ := json.Marshal(res)
+			w.Write(response)
 		}
-		response, _ := json.Marshal(res)
-		w.Write(response)
 	}
 
 }

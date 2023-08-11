@@ -40,15 +40,15 @@ func (hnd *commenthandler) CreateComment(w http.ResponseWriter, r *http.Request)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(response)
 
-	}
+	} else {
+		res := web.ResponseSuccess{
+			Message: "Success create comment",
+			Data:    result,
+		}
+		response, _ := json.Marshal(res)
 
-	res := web.ResponseSuccess{
-		Message: "Success create comment",
-		Data:    result,
+		w.Write(response)
 	}
-	response, _ := json.Marshal(res)
-
-	w.Write(response)
 
 }
 
