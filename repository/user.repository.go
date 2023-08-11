@@ -24,8 +24,10 @@ func (rep *userrepository) Register(ctx context.Context, user domain.UserEntity)
 	err := result.Create(&user).Error
 	if err != nil {
 		return nil, err
+	} else {
+		return &user, nil
 	}
-	return &user, nil
+
 }
 
 func (rep *userrepository) Update(ctx context.Context, id uint, userUpt domain.UserEntity) (*domain.UserEntity, error) {
