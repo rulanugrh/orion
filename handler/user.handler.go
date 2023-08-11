@@ -34,13 +34,15 @@ func (hnd *userhandler) Register(w http.ResponseWriter, r *http.Request) {
 
 	_, err := hnd.userServ.Register(req)
 	if err != nil {
-		res := web.ResponseFailure{
+		res := web.WebValidationError{
 			Message: "Cant create account or Email has been used",
+			Errors:  err,
 		}
 		log.Printf("cant create because: %v", err)
 		response, _ := json.Marshal(res)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(response)
+
 	}
 
 	token, errToken := middleware.GenerateToken(req)
@@ -59,7 +61,6 @@ func (hnd *userhandler) Register(w http.ResponseWriter, r *http.Request) {
 		Data:    token,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 }
 
@@ -94,7 +95,7 @@ func (hnd *userhandler) RefreshToken(w http.ResponseWriter, r *http.Request) {
 		Data:    token,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 }
 
@@ -130,7 +131,7 @@ func (hnd *userhandler) Login(w http.ResponseWriter, r *http.Request) {
 		Data:    result,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 
 }
@@ -160,7 +161,7 @@ func (hnd *userhandler) UpdateAccount(w http.ResponseWriter, r *http.Request) {
 		Data:    result,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 }
 
@@ -185,7 +186,7 @@ func (hnd *userhandler) JoinEvent(w http.ResponseWriter, r *http.Request) {
 		Data:    result,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 }
 
@@ -209,7 +210,7 @@ func (hnd *userhandler) DeleteAccount(w http.ResponseWriter, r *http.Request) {
 		Data:    "Account with this ID has been delete",
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 }
 
@@ -234,6 +235,6 @@ func (hnd *userhandler) DetailUser(w http.ResponseWriter, r *http.Request) {
 		Data:    result,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 }

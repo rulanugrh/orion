@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/rulanugrh/orion/entity/domain"
 	"github.com/rulanugrh/orion/entity/web"
 	"github.com/rulanugrh/orion/middleware"
@@ -12,16 +13,18 @@ import (
 
 type commentservice struct {
 	commentRepo port.CommentRepositoryInterface
+	validate    *validator.Validate
 }
 
 func NewCommentService(comment port.CommentRepositoryInterface) portServ.CommentServiceInterface {
 	return &commentservice{
 		commentRepo: comment,
+		validate:    validator.New(),
 	}
 }
 
 func (srv *commentservice) CreateComment(comment domain.CommentEntity) (*web.CommentResponseSuccess, error) {
-	errStruct := middleware.ValidateStruct(comment)
+	errStruct := middleware.ValidateStruct(srv.validate, comment)
 	if errStruct != nil {
 		return nil, errStruct
 	}

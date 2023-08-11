@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/rulanugrh/orion/entity/domain"
 	"github.com/rulanugrh/orion/entity/web"
 	"github.com/rulanugrh/orion/middleware"
@@ -12,16 +13,18 @@ import (
 
 type userservices struct {
 	userRepo port.UserRepositoryInterface
+	validate *validator.Validate
 }
 
 func NewUserServices(user port.UserRepositoryInterface) portServ.UserServiceInterface {
 	return &userservices{
 		userRepo: user,
+		validate: validator.New(),
 	}
 }
 
 func (srv *userservices) Register(user domain.UserEntity) (*web.UserResponseSuccess, error) {
-	errStruct := middleware.ValidateStruct(user)
+	errStruct := middleware.ValidateStruct(srv.validate, user)
 	if errStruct != nil {
 		return nil, errStruct
 	}

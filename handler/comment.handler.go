@@ -30,14 +30,16 @@ func (hnd *commenthandler) CreateComment(w http.ResponseWriter, r *http.Request)
 
 	result, err := hnd.commentService.CreateComment(req)
 	if err != nil {
-		res := web.ResponseFailure{
+		res := web.WebValidationError{
 			Message: "Cant Create Comment",
+			Errors:  err,
 		}
 
 		response, _ := json.Marshal(res)
 		log.Printf("Cant Create Comment Because %v", err)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(response)
+
 	}
 
 	res := web.ResponseSuccess{
@@ -45,7 +47,7 @@ func (hnd *commenthandler) CreateComment(w http.ResponseWriter, r *http.Request)
 		Data:    result,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 
 }
@@ -68,6 +70,6 @@ func (hnd *commenthandler) GetAllComment(w http.ResponseWriter, r *http.Request)
 		Data:    result,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 }

@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/rulanugrh/orion/entity/domain"
 	"github.com/rulanugrh/orion/entity/web"
 	"github.com/rulanugrh/orion/middleware"
@@ -12,20 +13,22 @@ import (
 
 type eventservices struct {
 	eventRepo port.EventRepositoryInterface
+	validate  *validator.Validate
 }
 
 func NewEventServices(event port.EventRepositoryInterface) portServ.EventServiceInterface {
 	return &eventservices{
 		eventRepo: event,
+		validate:  validator.New(),
 	}
 }
 
 func (srv *eventservices) CreateEvent(event domain.EventEntity) (*web.EventResponseSuccess, error) {
-	errStruct := middleware.ValidateStruct(event)
+	errStruct := middleware.ValidateStruct(srv.validate, event)
 	if errStruct != nil {
 		return nil, errStruct
 	}
-	
+
 	result, err := srv.eventRepo.CreateEvent(context.Background(), event)
 	if err != nil {
 		return nil, err

@@ -7,8 +7,7 @@ import (
 	"github.com/rulanugrh/orion/entity/web"
 )
 
-func ValidateStruct(data interface{}) error {
-	validate := validator.New()
+func ValidateStruct(validate *validator.Validate, data interface{}) error {
 	err := validate.Struct(data)
 
 	if err != nil {
@@ -16,7 +15,7 @@ func ValidateStruct(data interface{}) error {
 		for _, err := range err.(validator.ValidationErrors) {
 			field, _ := reflect.TypeOf(data).FieldByName(err.Field())
 			errors = append(errors, web.ValidationList{
-				Field: field.Type.Name(),
+				Field: field.Name,
 				Error: err.Field() + "|" + err.ActualTag(),
 			})
 		}

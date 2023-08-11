@@ -28,6 +28,11 @@ func (err ValidationError) Error() string {
 	return err.Message
 }
 
+type WebValidationError struct {
+	Message string      `json:"message"`
+	Errors  interface{} `json:"error"`
+}
+
 type JoinEventResponseSuccess struct {
 	EventName string `json:"event_name"`
 	EventDesc string `json:"event_desc"`

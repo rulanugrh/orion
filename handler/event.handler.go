@@ -30,8 +30,9 @@ func (hnd *eventhandler) CreateEvent(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(data, &req)
 	result, err := hnd.eventService.CreateEvent(req)
 	if err != nil {
-		res := web.ResponseFailure{
+		res := web.WebValidationError{
 			Message: "Cant Create Event",
+			Errors:  err,
 		}
 
 		response, _ := json.Marshal(res)
@@ -45,7 +46,7 @@ func (hnd *eventhandler) CreateEvent(w http.ResponseWriter, r *http.Request) {
 		Data:    result,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 }
 
@@ -71,7 +72,7 @@ func (hnd *eventhandler) GetEventByID(w http.ResponseWriter, r *http.Request) {
 		Data:    result,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 }
 
@@ -93,7 +94,7 @@ func (hnd *eventhandler) GetEvent(w http.ResponseWriter, r *http.Request) {
 		Data:    result,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 }
 
@@ -123,7 +124,7 @@ func (hnd *eventhandler) UpdateEvent(w http.ResponseWriter, r *http.Request) {
 		Data:    result,
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 }
 
@@ -149,6 +150,6 @@ func (hnd *eventhandler) DeleteEvent(w http.ResponseWriter, r *http.Request) {
 		Data:    "Data is has been delete",
 	}
 	response, _ := json.Marshal(res)
-	w.WriteHeader(http.StatusOK)
+
 	w.Write(response)
 }
