@@ -30,12 +30,6 @@ type DetailUserResponse struct {
 	Age int `json:"age"`
 	Notelp string `json:"no_telepon"`
 	Email string `json:"email"`
-	Event []EventList `json:"event_joining"`
-}
-
-type EventList struct {
-	Name string `json:"name"`
-	Description string `json:"description"`
 }
 
 type CommentResponseSuccess struct {

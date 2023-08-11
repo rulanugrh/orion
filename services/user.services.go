@@ -89,22 +89,11 @@ func (srv *userservices) DetailUser(id uint) (*web.DetailUserResponse, error) {
 		return nil, err
 	}
 
-	var eventList []web.EventList
-	for _, data := range result.Events {
-		event := web.EventList {
-			Name: data.Event.Name,
-			Description: data.Event.Description,
-		}
-
-		eventList = append(eventList, event)
-	}
-
 	response := web.DetailUserResponse{
 		Name: result.Name,
 		Email: result.Email,
 		Age: result.Age,
 		Notelp: result.Notelp,
-		Event: eventList,
 	}
 
 	return &response, nil

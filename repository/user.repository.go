@@ -68,11 +68,6 @@ func (rep *userrepository) JoinEvent(ctx context.Context, join domain.Participan
 	if errFind != nil {
 		log.Printf("Found Error %v", errs)
 	}
-
-	errAppend := configs.DB.WithContext(ctx).Model(&join.User).Association("Events").Append(&join)
-	if errAppend != nil {
-		log.Printf("Found Error %v", errs)
-	}
 	
 	errAppendEvent := configs.DB.WithContext(ctx).Model(&join.Event).Association("Participant").Append(&join)
 	if errAppendEvent != nil {
