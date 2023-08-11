@@ -8,7 +8,8 @@ import (
 	"github.com/rulanugrh/orion/entity/domain"
 	"github.com/rulanugrh/orion/repository/port"
 )
-type eventrepository  struct {}
+
+type eventrepository struct{}
 
 func NewEventRepository() port.EventRepositoryInterface {
 	return &eventrepository{}
@@ -24,11 +25,9 @@ func (rep *eventrepository) CreateEvent(ctx context.Context, event domain.EventE
 	if errs != nil {
 		log.Printf("Found Error %v", errs)
 	}
-	
+
 	return &event, nil
 }
-
-
 
 func (rep *eventrepository) GetEventById(ctx context.Context, id uint) (*domain.EventEntity, error) {
 	var event domain.EventEntity

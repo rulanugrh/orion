@@ -8,6 +8,7 @@ import (
 	"github.com/rulanugrh/orion/repository/port"
 	portServ "github.com/rulanugrh/orion/services/port"
 )
+
 type userservices struct {
 	userRepo port.UserRepositoryInterface
 }
@@ -24,8 +25,8 @@ func (srv *userservices) Register(user domain.UserEntity) (*web.UserResponseSucc
 		return nil, err
 	}
 
-	response := web.UserResponseSuccess {
-		Name: result.Name,
+	response := web.UserResponseSuccess{
+		Name:    result.Name,
 		Message: "Success Register",
 	}
 
@@ -38,8 +39,8 @@ func (srv *userservices) Update(id uint, userUpt domain.UserEntity) (*web.UserRe
 		return nil, err
 	}
 
-	response := web.UserResponseSuccess {
-		Name: result.Name,
+	response := web.UserResponseSuccess{
+		Name:    result.Name,
 		Message: "Success Update",
 	}
 
@@ -52,8 +53,8 @@ func (srv *userservices) FindByEmail(email string) (*web.UserResponseSuccess, er
 		return nil, err
 	}
 
-	response := web.UserResponseSuccess {
-		Name: result.Name,
+	response := web.UserResponseSuccess{
+		Name:    result.Name,
 		Message: "Success Login",
 	}
 
@@ -73,11 +74,10 @@ func (srv *userservices) JoinEvent(join domain.ParticipantEntity) (*web.JoinEven
 		return nil, err
 	}
 
-
-	response := web.JoinEventResponseSuccess {
+	response := web.JoinEventResponseSuccess{
 		EventName: result.Event.Name,
 		EventDesc: result.Event.Description,
-		UserName: result.User.Name,
+		UserName:  result.User.Name,
 	}
 
 	return &response, nil
@@ -90,10 +90,12 @@ func (srv *userservices) DetailUser(id uint) (*web.DetailUserResponse, error) {
 	}
 
 	response := web.DetailUserResponse{
-		Name: result.Name,
-		Email: result.Email,
-		Age: result.Age,
-		Notelp: result.Notelp,
+		Name:    result.Name,
+		Email:   result.Email,
+		Age:     result.Age,
+		Notelp:  result.Notelp,
+		Avatar:  result.Avatar,
+		Address: result.Address,
 	}
 
 	return &response, nil

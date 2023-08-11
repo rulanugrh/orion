@@ -24,17 +24,17 @@ func NewUserHandler(user port.UserServiceInterface) portHand.UserHandlerInterfac
 		userServ: user,
 	}
 }
-func (hnd *userhandler) Register(w http.ResponseWriter, r*http.Request){
+func (hnd *userhandler) Register(w http.ResponseWriter, r *http.Request) {
 	var req domain.UserEntity
 	data, _ := ioutil.ReadAll(r.Body)
 
 	json.Unmarshal(data, &req)
 	password := middleware.HashPassword(req.Password)
 	req.Password = password
-	
+
 	_, err := hnd.userServ.Register(req)
 	if err != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Cant create account or Email has been used",
 		}
 		log.Printf("cant create because: %v", err)
@@ -45,7 +45,7 @@ func (hnd *userhandler) Register(w http.ResponseWriter, r*http.Request){
 
 	token, errToken := middleware.GenerateToken(req)
 	if errToken != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Cant Generate Token",
 		}
 		log.Printf("cant generate token because: %v", errToken)
@@ -54,15 +54,14 @@ func (hnd *userhandler) Register(w http.ResponseWriter, r*http.Request){
 		w.Write(response)
 	}
 
-	res := web.ResponseSuccess {
+	res := web.ResponseSuccess{
 		Message: "success register account",
-		Data: token,
+		Data:    token,
 	}
 	response, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 }
-
 
 func (hnd *userhandler) RefreshToken(w http.ResponseWriter, r *http.Request) {
 	var req domain.UserEntity
@@ -71,7 +70,7 @@ func (hnd *userhandler) RefreshToken(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(data, &req)
 	_, err := hnd.userServ.FindByEmail(req.Email)
 	if err != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Cant Find Account with this Email",
 		}
 		log.Printf("cant find account because: %v", err)
@@ -81,7 +80,7 @@ func (hnd *userhandler) RefreshToken(w http.ResponseWriter, r *http.Request) {
 	}
 	token, errToken := middleware.GenerateToken(req)
 	if errToken != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Cant Generate Token",
 		}
 		log.Printf("cant generate token because: %v", errToken)
@@ -90,23 +89,23 @@ func (hnd *userhandler) RefreshToken(w http.ResponseWriter, r *http.Request) {
 		w.Write(response)
 	}
 
-	res := web.ResponseSuccess {
+	res := web.ResponseSuccess{
 		Message: "success refreh token ",
-		Data: token,
+		Data:    token,
 	}
 	response, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 }
 
-func (hnd *userhandler) Login(w http.ResponseWriter, r*http.Request) {
+func (hnd *userhandler) Login(w http.ResponseWriter, r *http.Request) {
 	var req domain.UserEntity
 	data, _ := ioutil.ReadAll(r.Body)
 
 	json.Unmarshal(data, &req)
 	result, err := hnd.userServ.FindByEmail(req.Email)
 	if err != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Cant Find Account with this Email",
 		}
 		log.Printf("cant find account because: %v", err)
@@ -117,7 +116,7 @@ func (hnd *userhandler) Login(w http.ResponseWriter, r*http.Request) {
 
 	compare := []byte(req.Password)
 	if errCheck := middleware.ComparePassword(req.Password, compare); errCheck != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Password not matched",
 		}
 		log.Printf("password not matched because: %v", err)
@@ -126,9 +125,9 @@ func (hnd *userhandler) Login(w http.ResponseWriter, r*http.Request) {
 		w.Write(response)
 	}
 
-	res := web.ResponseSuccess {
+	res := web.ResponseSuccess{
 		Message: "success login account",
-		Data: result,
+		Data:    result,
 	}
 	response, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)
@@ -136,7 +135,7 @@ func (hnd *userhandler) Login(w http.ResponseWriter, r*http.Request) {
 
 }
 
-func (hnd *userhandler) UpdateAccount(w http.ResponseWriter, r*http.Request) {
+func (hnd *userhandler) UpdateAccount(w http.ResponseWriter, r *http.Request) {
 	getId := mux.Vars(r)
 	params := getId["id"]
 	id, _ := strconv.Atoi(params)
@@ -147,7 +146,7 @@ func (hnd *userhandler) UpdateAccount(w http.ResponseWriter, r*http.Request) {
 
 	result, err := hnd.userServ.Update(uint(id), req)
 	if err != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Cant Update Account with this ID",
 		}
 		log.Printf("cant update account because: %v", err)
@@ -156,23 +155,23 @@ func (hnd *userhandler) UpdateAccount(w http.ResponseWriter, r*http.Request) {
 		w.Write(response)
 	}
 
-	res := web.ResponseSuccess {
+	res := web.ResponseSuccess{
 		Message: "success update account",
-		Data: result,
+		Data:    result,
 	}
 	response, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 }
 
-func (hnd *userhandler) JoinEvent(w http.ResponseWriter, r*http.Request) {
+func (hnd *userhandler) JoinEvent(w http.ResponseWriter, r *http.Request) {
 	var req domain.ParticipantEntity
 	data, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(data, &req)
 
 	result, err := hnd.userServ.JoinEvent(req)
 	if err != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Cant Join Event with This ID",
 		}
 		log.Printf("cant join event because: %v", err)
@@ -181,22 +180,22 @@ func (hnd *userhandler) JoinEvent(w http.ResponseWriter, r*http.Request) {
 		w.Write(response)
 	}
 
-	res := web.ResponseSuccess {
+	res := web.ResponseSuccess{
 		Message: "success join event",
-		Data: result,
+		Data:    result,
 	}
 	response, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 }
 
-func (hnd *userhandler) DeleteAccount(w http.ResponseWriter, r*http.Request) {
+func (hnd *userhandler) DeleteAccount(w http.ResponseWriter, r *http.Request) {
 	getId := mux.Vars(r)
 	params := getId["id"]
 	id, _ := strconv.Atoi(params)
 
 	if err := hnd.userServ.DeleteAccount(uint(id)); err != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Cant Delete Account with this ID",
 		}
 		log.Printf("cant delete account because: %v", err)
@@ -205,24 +204,23 @@ func (hnd *userhandler) DeleteAccount(w http.ResponseWriter, r*http.Request) {
 		w.Write(response)
 	}
 
-	res := web.ResponseSuccess {
+	res := web.ResponseSuccess{
 		Message: "success delete account",
-		Data: "Account with this ID has been delete",
+		Data:    "Account with this ID has been delete",
 	}
 	response, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)
 	w.Write(response)
 }
 
-
-func (hnd *userhandler) DetailUser(w http.ResponseWriter, r*http.Request) {
+func (hnd *userhandler) DetailUser(w http.ResponseWriter, r *http.Request) {
 	getId := mux.Vars(r)
 	params := getId["id"]
 	id, _ := strconv.Atoi(params)
 
 	result, err := hnd.userServ.DetailUser(uint(id))
 	if err != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Cant see detail with This ID",
 		}
 		log.Printf("cant see detail because: %v", err)
@@ -231,9 +229,9 @@ func (hnd *userhandler) DetailUser(w http.ResponseWriter, r*http.Request) {
 		w.Write(response)
 	}
 
-	res := web.ResponseSuccess {
+	res := web.ResponseSuccess{
 		Message: "success get detail",
-		Data: result,
+		Data:    result,
 	}
 	response, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)

@@ -58,7 +58,7 @@ func (rep *userrepository) DeleteAccount(ctx context.Context, id uint) error {
 	return nil
 }
 
-func (rep *userrepository) JoinEvent(ctx context.Context, join domain.ParticipantEntity) ( *domain.ParticipantEntity, error) {
+func (rep *userrepository) JoinEvent(ctx context.Context, join domain.ParticipantEntity) (*domain.ParticipantEntity, error) {
 	errs := configs.DB.WithContext(ctx).Create(&join).Error
 	if errs != nil {
 		log.Printf("Found Error %v", errs)
@@ -68,7 +68,7 @@ func (rep *userrepository) JoinEvent(ctx context.Context, join domain.Participan
 	if errFind != nil {
 		log.Printf("Found Error %v", errs)
 	}
-	
+
 	errAppendEvent := configs.DB.WithContext(ctx).Model(&join.Event).Association("Participant").Append(&join)
 	if errAppendEvent != nil {
 		log.Printf("Found Error %v", errs)

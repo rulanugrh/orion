@@ -25,12 +25,12 @@ func NewCommentHandler(comment port.CommentServiceInterface) portHand.CommentHan
 func (hnd *commenthandler) CreateComment(w http.ResponseWriter, r *http.Request) {
 	var req domain.CommentEntity
 	data, _ := ioutil.ReadAll(r.Body)
-	
+
 	json.Unmarshal(data, &req)
 
 	result, err := hnd.commentService.CreateComment(req)
 	if err != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Cant Create Comment",
 		}
 
@@ -40,9 +40,9 @@ func (hnd *commenthandler) CreateComment(w http.ResponseWriter, r *http.Request)
 		w.Write(response)
 	}
 
-	res := web.ResponseSuccess {
+	res := web.ResponseSuccess{
 		Message: "Success create comment",
-		Data: result,
+		Data:    result,
 	}
 	response, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)
@@ -53,7 +53,7 @@ func (hnd *commenthandler) CreateComment(w http.ResponseWriter, r *http.Request)
 func (hnd *commenthandler) GetAllComment(w http.ResponseWriter, r *http.Request) {
 	result, err := hnd.commentService.GetAllComment()
 	if err != nil {
-		res := web.ResponseFailure {
+		res := web.ResponseFailure{
 			Message: "Cant Get All Comment",
 		}
 
@@ -63,9 +63,9 @@ func (hnd *commenthandler) GetAllComment(w http.ResponseWriter, r *http.Request)
 		w.Write(response)
 	}
 
-	res := web.ResponseSuccess {
+	res := web.ResponseSuccess{
 		Message: "Success get all comment",
-		Data: result,
+		Data:    result,
 	}
 	response, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)

@@ -32,7 +32,6 @@ func Run(event port.EventHandlerInterface, comment port.CommentHandlerInterface,
 	routesHandler.HandleFunc("/event/getEvent/{id}", event.GetEventByID).Methods("GET")
 	routesHandler.HandleFunc("/event/updateEvent/{id}", event.UpdateEvent).Methods("PUT")
 	routesHandler.HandleFunc("/event/deleteEvent/{id}", event.DeleteEvent).Methods("DELETE")
-	
 
 	// routing for comment
 	routesHandler.HandleFunc("/comment/createComment", comment.CreateComment).Methods("POST")
@@ -47,8 +46,8 @@ func Run(event port.EventHandlerInterface, comment port.CommentHandlerInterface,
 
 	config := configs.GetConfig()
 	host := fmt.Sprintf("%s:%s", config.Server.Host, config.Server.Hport)
-	server := http.Server {
-		Addr: host,
+	server := http.Server{
+		Addr:    host,
 		Handler: router,
 	}
 

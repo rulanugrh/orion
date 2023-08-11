@@ -19,13 +19,12 @@ type jwtClaims struct {
 	jwt.RegisteredClaims
 }
 
-
 func GenerateToken(user domain.UserEntity) (string, error) {
 	conf := configs.GetConfig()
 	time := jwt.NewNumericDate(time.Now().Add(3 * time.Hour))
 	claims := &jwtClaims{
 		Email: user.Email,
-		Name: user.Name,
+		Name:  user.Name,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: time,
 		},
@@ -71,7 +70,7 @@ func JWTVerify(next http.Handler) http.Handler {
 		token = strings.TrimSpace(token)
 
 		if token == "" {
-			res := web.ResponseFailure {
+			res := web.ResponseFailure{
 				Message: "Cant login because not have token",
 			}
 
@@ -82,7 +81,7 @@ func JWTVerify(next http.Handler) http.Handler {
 
 		err := ValidateToken(token)
 		if err != nil {
-			res := web.ResponseFailure {
+			res := web.ResponseFailure{
 				Message: "Cant login because token is not valid",
 			}
 

@@ -5,31 +5,33 @@ import (
 )
 
 type EventResponseSuccess struct {
-	Name        string 			`json:"name"`
-	Description string 			`json:"description"`
-	Owner       string 			`json:"owner"`
-	CreateAt    time.Time 		`json:"create_at"`
-	UpdateAt	time.Time 		`json:"update_at"`
-	Comment 	[]CommentList 	`json:"comment"`
-	Parcipant 	[]ParcipantList `json:"participant"`
+	Name        string          `json:"name"`
+	Description string          `json:"description"`
+	Owner       string          `json:"owner"`
+	CreateAt    time.Time       `json:"create_at"`
+	UpdateAt    time.Time       `json:"update_at"`
+	Comment     []CommentList   `json:"comment"`
+	Parcipant   []ParcipantList `json:"participant"`
 }
 
 type JoinEventResponseSuccess struct {
 	EventName string `json:"event_name"`
 	EventDesc string `json:"event_desc"`
-	UserName string `json:"user_name"`
+	UserName  string `json:"user_name"`
 }
 
 type UserResponseSuccess struct {
-	Name 	string `json:"name"`
+	Name    string `json:"name"`
 	Message string `json:"message"`
 }
 
 type DetailUserResponse struct {
-	Name string `json:"name"`
-	Age int `json:"age"`
-	Notelp string `json:"no_telepon"`
-	Email string `json:"email"`
+	Name    string `json:"name"`
+	Age     int    `json:"age"`
+	Notelp  string `json:"no_telepon"`
+	Email   string `json:"email"`
+	Address string `json:"address"`
+	Avatar  string `json:"avatar"`
 }
 
 type CommentResponseSuccess struct {
@@ -40,13 +42,13 @@ type CommentResponseSuccess struct {
 }
 
 type CommentList struct {
-	UserName string 	`json:"user_name"`
-	Comment  string 	`json:"comment"`
+	UserName string `json:"user_name"`
+	Comment  string `json:"comment"`
 }
 
 type ParcipantList struct {
 	UserName string `json:"user_name"`
-	Email string `json:"user_email"`
+	Email    string `json:"user_email"`
 }
 
 type ResponseFailure struct {
@@ -54,6 +56,6 @@ type ResponseFailure struct {
 }
 
 type ResponseSuccess struct {
-	Message string `json:"message"`
-	Data interface{} `json:"data"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
 }

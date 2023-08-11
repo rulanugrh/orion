@@ -30,7 +30,7 @@ func (rep *commentrepositoy) CreateComment(ctx context.Context, comment domain.C
 	if errsEvent != nil {
 		log.Printf("Found Error %v", errs)
 	}
-	
+
 	return &comment, nil
 }
 

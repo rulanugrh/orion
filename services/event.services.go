@@ -8,6 +8,7 @@ import (
 	"github.com/rulanugrh/orion/repository/port"
 	portServ "github.com/rulanugrh/orion/services/port"
 )
+
 type eventservices struct {
 	eventRepo port.EventRepositoryInterface
 }
@@ -25,21 +26,21 @@ func (srv *eventservices) CreateEvent(event domain.EventEntity) (*web.EventRespo
 	}
 	var participantList []web.ParcipantList
 	for _, data := range result.Participant {
-		participant := web.ParcipantList {
+		participant := web.ParcipantList{
 			UserName: data.User.Name,
-			Email: data.User.Email,
+			Email:    data.User.Email,
 		}
 
 		participantList = append(participantList, participant)
 	}
 
-	response := web.EventResponseSuccess {
-		Name: result.Name,
+	response := web.EventResponseSuccess{
+		Name:        result.Name,
 		Description: result.Description,
-		Owner: result.User.Name,
-		CreateAt: result.CreatedAt,
-		UpdateAt: result.UpdatedAt,
-		Parcipant: participantList,
+		Owner:       result.User.Name,
+		CreateAt:    result.CreatedAt,
+		UpdateAt:    result.UpdatedAt,
+		Parcipant:   participantList,
 	}
 
 	return &response, nil
@@ -50,12 +51,12 @@ func (srv *eventservices) GetEventByID(id uint) (*web.EventResponseSuccess, erro
 	if err != nil {
 		return nil, err
 	}
-	
+
 	var commentList []web.CommentList
 	for _, commentRes := range result.Comments {
-		comment := web.CommentList {
+		comment := web.CommentList{
 			UserName: commentRes.User.Name,
-			Comment: commentRes.Comment,
+			Comment:  commentRes.Comment,
 		}
 
 		commentList = append(commentList, comment)
@@ -63,22 +64,22 @@ func (srv *eventservices) GetEventByID(id uint) (*web.EventResponseSuccess, erro
 
 	var participantList []web.ParcipantList
 	for _, data := range result.Participant {
-		participant := web.ParcipantList {
+		participant := web.ParcipantList{
 			UserName: data.User.Name,
-			Email: data.User.Email,
+			Email:    data.User.Email,
 		}
 
 		participantList = append(participantList, participant)
 	}
 
-	response := web.EventResponseSuccess {
-		Name: result.Name,
+	response := web.EventResponseSuccess{
+		Name:        result.Name,
 		Description: result.Description,
-		Owner: result.User.Name,
-		CreateAt: result.CreatedAt,
-		UpdateAt: result.UpdatedAt,
-		Comment: commentList,
-		Parcipant: participantList,
+		Owner:       result.User.Name,
+		CreateAt:    result.CreatedAt,
+		UpdateAt:    result.UpdatedAt,
+		Comment:     commentList,
+		Parcipant:   participantList,
 	}
 
 	return &response, nil
@@ -95,31 +96,31 @@ func (srv *eventservices) GetEvent() ([]web.EventResponseSuccess, error) {
 
 		var commentList []web.CommentList
 		for _, comment := range data.Comments {
-			comments := web.CommentList {
+			comments := web.CommentList{
 				UserName: comment.User.Name,
-				Comment: comment.Comment,
+				Comment:  comment.Comment,
 			}
 
-			commentList  = append(commentList, comments)
+			commentList = append(commentList, comments)
 		}
 		var participantList []web.ParcipantList
 		for _, res := range data.Participant {
-			participant := web.ParcipantList {
+			participant := web.ParcipantList{
 				UserName: res.User.Name,
-				Email: res.User.Email,
+				Email:    res.User.Email,
 			}
 
 			participantList = append(participantList, participant)
 		}
 
-		res := web.EventResponseSuccess {
-			Name: data.Name,
+		res := web.EventResponseSuccess{
+			Name:        data.Name,
 			Description: data.Description,
-			Owner: data.User.Name,
-			CreateAt: data.CreatedAt,
-			UpdateAt: data.UpdatedAt,
-			Comment: commentList,
-			Parcipant: participantList,
+			Owner:       data.User.Name,
+			CreateAt:    data.CreatedAt,
+			UpdateAt:    data.UpdatedAt,
+			Comment:     commentList,
+			Parcipant:   participantList,
 		}
 
 		response = append(response, res)
@@ -136,31 +137,31 @@ func (srv *eventservices) UpdateEvent(id uint, eventUpt domain.EventEntity) (*we
 
 	var commentList []web.CommentList
 	for _, data := range result.Comments {
-		comment := web.CommentList {
+		comment := web.CommentList{
 			UserName: data.User.Name,
-			Comment: data.Comment,
+			Comment:  data.Comment,
 		}
 
 		commentList = append(commentList, comment)
 	}
 	var participantList []web.ParcipantList
 	for _, data := range result.Participant {
-		participant := web.ParcipantList {
+		participant := web.ParcipantList{
 			UserName: data.User.Name,
-			Email: data.User.Email,
+			Email:    data.User.Email,
 		}
 
 		participantList = append(participantList, participant)
 	}
 
-	response := web.EventResponseSuccess {
-		Name: result.Name,
+	response := web.EventResponseSuccess{
+		Name:        result.Name,
 		Description: result.Description,
-		Owner: result.User.Name,
-		CreateAt: result.CreatedAt,
-		UpdateAt: result.UpdatedAt,
-		Comment: commentList,
-		Parcipant: participantList,
+		Owner:       result.User.Name,
+		CreateAt:    result.CreatedAt,
+		UpdateAt:    result.UpdatedAt,
+		Comment:     commentList,
+		Parcipant:   participantList,
 	}
 
 	return &response, nil
@@ -172,6 +173,6 @@ func (srv *eventservices) DeleteEvent(id uint) error {
 	if err != nil {
 		return err
 	}
-	
+
 	return nil
 }

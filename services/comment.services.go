@@ -25,11 +25,11 @@ func (srv *commentservice) CreateComment(comment domain.CommentEntity) (*web.Com
 		return nil, err
 	}
 
-	response := web.CommentResponseSuccess {
+	response := web.CommentResponseSuccess{
 		EventName: result.Event.Name,
 		EventDesc: result.Event.Description,
-		UserName: result.User.Name,
-		Comment: result.Comment,
+		UserName:  result.User.Name,
+		Comment:   result.Comment,
 	}
 
 	return &response, nil
@@ -43,11 +43,11 @@ func (srv *commentservice) GetAllComment() ([]web.CommentResponseSuccess, error)
 
 	var response []web.CommentResponseSuccess
 	for _, data := range result {
-		comment := web.CommentResponseSuccess {
+		comment := web.CommentResponseSuccess{
 			EventName: data.Event.Name,
 			EventDesc: data.Event.Description,
-			UserName: data.User.Name,
-			Comment: data.Comment,
+			UserName:  data.User.Name,
+			Comment:   data.Comment,
 		}
 
 		response = append(response, comment)
